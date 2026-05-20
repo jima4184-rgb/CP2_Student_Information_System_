@@ -20,3 +20,17 @@ def load_students():
                     student_last_names.append(data[2])
                     student_courses.append(data[3])
                     student_year_levels.append(int(data[4]))
+                    student_year_levels.append(int(data[4]))
+
+
+def save_students():
+    """Save all student records to the file."""
+    with open(FILE_NAME, "w") as file:
+        for i in range(len(student_ids)):
+            file.write(
+                f"{student_ids[i]}|"
+                f"{student_first_names[i]}|"
+                f"{student_last_names[i]}|"
+                f"{student_courses[i]}|"
+                f"{student_year_levels[i]}\n"
+            )
