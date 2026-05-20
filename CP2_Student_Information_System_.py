@@ -34,3 +34,34 @@ def save_students():
                 f"{student_courses[i]}|"
                 f"{student_year_levels[i]}\n"
             )
+
+def add_student():
+    print("\n-- Add Student --")
+    sid = input("Enter Student ID: ").strip()
+
+    if sid in student_ids:
+        print("ID already exists!")
+        return
+
+    first_name = input("Enter First Name: ").strip()
+    last_name = input("Enter Last Name: ").strip()
+    course = input("Enter Course: ").strip()
+
+    while True:
+        try:
+            year_level = int(input("Enter Year Level (1-5): "))
+            if 1 <= year_level <= 5:
+                break
+            else:
+                print("Year level must be between 1 and 5.")
+        except ValueError:
+            print("Please enter a valid number.")
+
+    student_ids.append(sid)
+    student_first_names.append(first_name)
+    student_last_names.append(last_name)
+    student_courses.append(course)
+    student_year_levels.append(year_level)
+
+    save_students()
+    print(f"Student '{first_name} {last_name}' added successfully!")
