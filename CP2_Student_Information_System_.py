@@ -97,3 +97,22 @@ def search_student():
         print(f"Year Level: {student_year_levels[i]}")
     else:
         print("Student not found.")
+
+def delete_student():
+    print("\n-- Delete Student --")
+    sid = input("Enter Student ID to delete: ").strip()
+
+    if sid in student_ids:
+        i = student_ids.index(sid)
+
+        print(f"Deleted: {student_first_names[i]} {student_last_names[i]}")
+
+        student_ids.pop(i)
+        student_first_names.pop(i)
+        student_last_names.pop(i)
+        student_courses.pop(i)
+        student_year_levels.pop(i)
+
+        save_students()
+    else:
+        print("Student not found.")
