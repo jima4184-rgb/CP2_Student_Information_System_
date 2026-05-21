@@ -84,3 +84,16 @@ def view_students():
             f"{student_courses[i]:<10} "
             f"{student_year_levels[i]:>3}"
         )
+
+def search_student():
+    print("\n-- Search Student --")
+    sid = input("Enter Student ID: ").strip()
+
+    if sid in student_ids:
+        i = student_ids.index(sid)
+        print(f"ID        : {student_ids[i]}")
+        print(f"Name      : {student_first_names[i]} {student_last_names[i]}")
+        print(f"Course    : {student_courses[i]}")
+        print(f"Year Level: {student_year_levels[i]}")
+    else:
+        print("Student not found.")
