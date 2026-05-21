@@ -116,3 +116,35 @@ def delete_student():
         save_students()
     else:
         print("Student not found.")
+
+def update_student():
+    print("\n-- Update Student --")
+    sid = input("Enter Student ID to update: ").strip()
+
+    if sid in student_ids:
+        i = student_ids.index(sid)
+
+        print(f"Current Name      : {student_first_names[i]} {student_last_names[i]}")
+        print(f"Current Course    : {student_courses[i]}")
+        print(f"Current Year Level: {student_year_levels[i]}")
+
+        student_first_names[i] = input("Enter New First Name: ").strip()
+        student_last_names[i] = input("Enter New Last Name: ").strip()
+        student_courses[i] = input("Enter New Course: ").strip()
+
+        while True:
+            try:
+                new_year = int(input("Enter New Year Level (1-5): "))
+                if 1 <= new_year <= 5:
+                    student_year_levels[i] = new_year
+                    break
+                else:
+                    print("Year level must be between 1 and 5.")
+            except ValueError:
+                print("Please enter a valid number.")
+
+        save_students()
+        print("Student updated successfully!")
+    else:
+        print("Student not found.")
+
