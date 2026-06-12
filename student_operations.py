@@ -54,17 +54,41 @@ def view_students():
         print("No students found.")
         return
 
-    print(f"{'ID':<12} {'First Name':<15} {'Last Name':<15} {'Course':<10} {'Yr':>3}")
+    print(
+        f"{'ID':<12} "
+        f"{'First Name':<15} "
+        f"{'Last Name':<15} "
+        f"{'Course':<10} "
+        f"{'Yr':>3}"
+    )
+
     print("-" * 58)
 
-    for i in range(len(student_ids)):
-        print(
-            f"{student_ids[i]:<12} "
-            f"{student_first_names[i]:<15} "
-            f"{student_last_names[i]:<15} "
-            f"{student_courses[i]:<10} "
-            f"{student_year_levels[i]:>3}"
+
+      records = list(
+        zip(
+            student_ids,
+            student_first_names,
+            student_last_names,
+            student_courses,
+            student_year_levels
         )
+    )
+
+    records.sort()
+
+    for sid, fname, lname, course, year in records:
+        print(
+            f"{sid:<12} "
+            f"{fname:<15} "
+            f"{lname:<15} "
+            f"{course:<10} "
+            f"{year:>3}"
+        )
+
+    print("-" * 58)
+    print(f"Total Students: {len(student_ids)}")
+
 
 
 def search_student():
