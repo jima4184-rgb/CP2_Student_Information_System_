@@ -44,3 +44,17 @@ def save_students():
                 f"{student_courses[i]}|"
                 f"{student_year_levels[i]}\n"
             )
+
+
+def get_valid_name(prompt):
+    """Validate first and last names"""
+    while True:
+        name = input(prompt).strip()
+
+        if not name:
+            print("This field cannot be empty.")
+        elif not name.replace(" ", "").isalpha():
+            print("Name must contain letters only.")
+        else:
+            return name.title()
+
