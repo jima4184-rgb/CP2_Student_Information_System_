@@ -138,21 +138,61 @@ def delete_student():
 def update_student():
     sid = input("Enter Student ID to update: ").strip()
 
-    if sid in student_ids:
+     if sid not in student_ids:
+        print("Student not found.")
+        return
+
         i = student_ids.index(sid)
 
-        student_first_names[i] = input("Enter New First Name: ")
-        student_last_names[i] = input("Enter New Last Name: ")
-        student_courses[i] = input("Enter New Course: ")
+        print(
+        f"Current Name      : "
+        f"{student_first_names[i]} "
+        f"{student_last_names[i]}"
+    )
+    print(f"Current Course    : {student_courses[i]}")
+    print(f"Current Year Level: {student_year_levels[i]}")
 
-        while True:
-            try:
-                year = int(input("Enter New Year Level (1-5): "))
-                if 1 <= year <= 5:
-                    student_year_levels[i] = year
-                    break
-            except ValueError:
-                print("Invalid input.")
+ new_first = input(
+        f"Enter New First Name [{student_first_names[i]}]: "
+    ).strip()
+
+    if new_first:
+        student_first_names[i] = new_first.title()
+
+    new_last = input(
+        f"Enter New Last Name [{student_last_names[i]}]: "
+).strip()
+
+    if new_last:
+        student_last_names[i] = new_last.title()
+
+    new_course = input(
+        f"Enter New Course [{student_courses[i]}]: "
+    ).strip()
+
+    if new_course:
+        student_courses[i] = new_course.upper()
+
+         while True:
+        new_year = input(
+            f"Enter New Year Level [{student_year_levels[i]}]: "
+        ).strip()
+
+        if not new_year:
+            break
+
+        try:
+            new_year = int(new_year)
+
+            if 1 <= new_year <= 5:
+                student_year_levels[i] = new_year
+                break
+            else:
+                print("Year level must be between 1 and 5.")
+
+        except ValueError:
+            print("Please enter a valid number.")
+
 
         save_students()
         print("Student updated successfully!")
