@@ -111,14 +111,26 @@ def delete_student():
     if sid in student_ids:
         i = student_ids.index(sid)
 
-        student_ids.pop(i)
-        student_first_names.pop(i)
-        student_last_names.pop(i)
-        student_courses.pop(i)
-        student_year_levels.pop(i)
+        print(
+            f"Student Found: "
+            f"{student_first_names[i]} "
+            f"{student_last_names[i]} "
+        )
 
-        save_students()
-        print("Student deleted successfully!")
+        confirm = input("Are you sure? (Y/N): ").upper()
+
+        if confirm == "Y":
+            student_ids.pop(i)
+            student_first_names.pop(i)
+            student_last_names.pop(i)
+            student_courses.pop(i)
+            student_year_levels.pop(i)
+
+            save_students()
+
+            print("Student deleted successfully.")
+        else:
+            print("Delete cancelled.")
     else:
         print("Student not found.")
 
