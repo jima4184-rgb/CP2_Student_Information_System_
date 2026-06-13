@@ -177,3 +177,28 @@ def show_dashboard(window):
         bg="red",
         fg="white",
     ).pack(pady=15)
+
+
+def logout(window):
+    if messagebox.askyesno("Logout", "Are you sure you want to logout?"):
+        current_user["username"] = None
+        current_user["role"] = None
+        show_welcome(window)
+
+
+def main():
+    load_students()
+
+    window = tk.Tk()
+    window.title("Student Information System")
+    window.geometry("700x550")
+    window.configure(bg="white")
+
+    show_welcome(window)
+
+    window.mainloop()
+
+
+if __name__ == "__main__":
+    main()
+
