@@ -2,6 +2,19 @@ from student_data import *
 from utils import is_valid_name
 
 
+def get_valid_name(prompt):
+    """Validate first and last names"""
+    while True:
+        name = input(prompt).strip()
+
+        if not name:
+            print("This field cannot be empty.")
+        elif not name.replace(" ", "").isalpha():
+            print("Name must contain letters only.")
+        else:
+            return name.title()
+
+
 def add_student():
     print("\n-- Add Student --")
     sid = input("Enter Student ID: ").strip()
