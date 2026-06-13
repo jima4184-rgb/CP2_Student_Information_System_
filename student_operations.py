@@ -386,66 +386,130 @@ def open_delete_student(root):
     ).pack(pady=10)
 
 
-def update_student():
-    sid = input("Enter Student ID to update: ").strip()
+def open_update_student(root):
+    win = tk.Toplevel(root)
+    win.title("Update Student")
+    win.geometry("500x550")
+    win.configure(bg="white")
 
-    if sid not in student_ids:
-        print("Student not found.")
-        return
+    frame = tk.Frame(win, bg="white")
+    frame.place(relx=0.5, rely=0.5, anchor="center")
+
+    tk.Label(
+        frame,
+        text="UPDATE STUDENT",
+        font=("Arial", 22, "bold"),
+        fg=MAROON,
+        bg="white",
+    ).pack(pady=10)
+
+    tk.Label(frame, text="Enter Student ID", bg="white").pack()
+    id_entry = tk.Entry(frame, font=("Arial", 14), width=25, justify="center")
+    id_entry.pack(pady=10)
+
+    fields_frame = tk.Frame(frame, bg="white")
+
+    first_entry = tk.Entry(fields_frame, font=("Arial", 14), width=25, justify="center")
+    last_entry = tk.Entry(fields_frame, font=("Arial", 14), width=25, justify="center")
+    course_entry = tk.Entry(fields_frame, font=("Arial", 14), width=25, justify="center")
+    year_entry = tk.Entry(fields_frame, font=("Arial", 14), width=25, justify="center")
+
+    def load_student():
+        sid = id_entry.get().strip()
+
+        if sid not in student_ids:
+            messagebox.showerror("Error", "Student not found.")
+            fields_frame.pack_forget()
+            return
 
         i = student_ids.index(sid)
 
-        print(
-        f"Current Name      : "
-        f"{student_first_names[i]} "
-        f"{student_last_names[i]}"
-    )
-    print(f"Current Course    : {student_courses[i]}")
-    print(f"Current Year Level: {student_year_levels[i]}")
+        for entry, value in (
+            (first_entry, student_first_names[i]),
+            (last_entry, student_last_names[i]),
+            (course_entry, student_courses[i]),
+            (year_entry, student_year_levels[i]),
+        ):
+            entry.delete(0, "end")
+            entry.insert(0, value)
 
-    new_first = input(
-        f"Enter New First Name [{student_first_names[i]}]: "
-    ).strip()
+        fields_frame.pack(pady=10)
+        messagebox.showinfo("Found", "Student loaded! You may edit the fields below.")
 
-    if new_first:
-        student_first_names[i] = new_first.title()
+    tk.Button(
+        frame, text="LOAD", command=load_student, bg=MAROON, fg="white", width=15
+    ).pack(pady=5)
 
-    new_last = input(
-        f"Enter New Last Name [{student_last_names[i]}]: "
-).strip()
+    tk.Label(fields_frame, text="FIRST NAME", bg="white").pack()
+    first_entry.pack(pady=5)
 
-    if new_last:
-        student_last_names[i] = new_last.title()
+    tk.Label(fields_frame, text="LAST NAME", bg="white").pack()
+    last_entry.pack(pady=5)
 
-    new_course = input(
-        f"Enter New Course [{student_courses[i]}]: "
-    ).strip()
+    tk.Label(fields_frame, text="COURSE", bg="white").pack()
+    course_entry.pack(pady=5)
 
-    if new_course:
-        student_courses[i] = new_course.upper()
+    tk.Label(fields_frame, text="YEAR LEVEL (1-5)", bg="white").pack()
+    year_entry.pack(pady=5)
 
-    while True:
-        new_year = input(
-            f"Enter New Year Level [{student_year_levels[i]}]: "
-        ).strip()
+    def save_update():
+        sid = id_entry.get().strip()
 
-        if not new_year:
-            break
+        if sid not in student_ids:
+            messagebox.showerror("Error", "Student not found.")
+            return
+
+        new_first = first_entry.get().strip()
+        new_last = last_entry.get().strip()
+        new_course = course_entry.get().strip()
+        new_year = year_entry.get().strip()
+
+        if not new_first or not new_last or not new_course or not new_year:
+            messagebox.showerror("Error", "All fields are required.")
+            return
+
+        if not is_valid_name(new_first):
+            messagebox.showerror("Error", "First name cannot contain numbers.")
+            return
+
+        if not is_valid_name(new_last):
+            messagebox.showerror("Error", "Last name cannot contain numbers.")
+            return
+
+        if not is_valid_name(new_course):
+            messagebox.showerror("Error", "Course cannot contain numbers.")
+            return
 
         try:
-            new_year = int(new_year)
-
-            if 1 <= new_year <= 5:
-                student_year_levels[i] = new_year
-                break
-            else:
-                print("Year level must be between 1 and 5.")
-
+            year_level = int(new_year)
+            if not (1 <= year_level <= 5):
+                messagebox.showerror("Error", "Year level must be between 1 and 5.")
+                return
         except ValueError:
-            print("Please enter a valid number.")
+            messagebox.showerror("Error", "Year level must be a number.")
+            return
 
+        if not messagebox.askyesno("Confirm", "Save changes to this student?"):
+            return
+
+        i = student_ids.index(sid)
+        student_first_names[i] = new_first.title()
+        student_last_names[i] = new_last.title()
+        student_courses[i] = new_course.upper()
+        student_year_levels[i] = year_level
 
         save_students()
-        print("Student updated successfully!")
-    else:
-        print("Student not found.")
+
+        messagebox.showinfo("Success", "Student updated successfully!")
+        win.destroy()
+
+    tk.Button(
+        frame,
+        text="SAVE UPDATE",
+        font=("Arial", 14, "bold"),
+        bg=MAROON,
+        fg="white",
+        width=18,
+        command=save_update,
+    ).pack(pady=20)
+")
