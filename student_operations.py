@@ -272,6 +272,59 @@ def open_edit_student(parent, selected_data, refresh_callback):
     ).pack(pady=20)
 
 
+def open_search_student(root):
+    win = tk.Toplevel(root)
+    win.title("Search Student")
+    win.geometry("500x400")
+    win.configure(bg="white")
+
+    frame = tk.Frame(win, bg="white")
+    frame.place(relx=0.5, rely=0.5, anchor="center")
+
+    tk.Label(
+        frame,
+        text="SEARCH STUDENT",
+        font=("Arial", 22, "bold"),
+        fg=MAROON,
+        bg="white",
+    ).pack(pady=10)
+
+    tk.Label(frame, text="Enter Student ID", bg="white").pack()
+
+    id_entry = tk.Entry(frame, font=("Arial", 14), width=25, justify="center")
+    id_entry.pack(pady=10)
+
+    result_box = tk.Text(frame, font=("Arial", 12), width=45, height=8)
+    result_box.pack(pady=10)
+
+    def do_search():
+        sid = id_entry.get().strip()
+        result_box.delete("1.0", "end")
+
+        if sid in student_ids:
+            i = student_ids.index(sid)
+            result_box.insert("end", f"ID        : {student_ids[i]}\n")
+            result_box.insert(
+                "end",
+                f"Name      : {student_first_names[i]} {student_last_names[i]}\n",
+            )
+            result_box.insert("end", f"Course    : {student_courses[i]}\n")
+            result_box.insert("end", f"Year Level: {student_year_levels[i]}\n")
+        else:
+            result_box.insert("end", "Student not found.")
+
+    tk.Button(
+        frame,
+        text="SEARCH",
+        font=("Arial", 14, "bold"),
+        bg=MAROON,
+        fg="white",
+        width=15,
+        command=do_search,
+    ).pack(pady=10)
+
+
+
 def delete_student():
     sid = input("Enter Student ID to delete: ").strip()
 
