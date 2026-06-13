@@ -15,62 +15,94 @@ MAROON = "#800000"
 GOLD = "#FFD700"
 
 
-def get_valid_name(prompt):
-    """Validate first and last names"""
-    while True:
-        name = input(prompt).strip()
+def open_add_student(root):
+    win = tk.Toplevel(root)
+    win.title("Add Student")
+    win.geometry("450x500")
+    win.configure(bg="white")
 
-        if not name:
-            print("This field cannot be empty.")
-        elif not name.replace(" ", "").isalpha():
-            print("Name must contain letters only.")
-        else:
-            return name.title()
+    frame = tk.Frame(win, bg="white")
+    frame.place(relx=0.5, rely=0.5, anchor="center")
 
+    tk.Label(
+        frame,
+        text="ADD STUDENT",
+        font=("Arial", 24, "bold"),
+        fg=MAROON,
+        bg="white",
+    ).pack(pady=10)
 
-def add_student():
-    print("\n-- Add Student --")
-    sid = input("Enter Student ID: ").strip()
+    def labeled_entry(text):
+        tk.Label(frame, text=text, bg="white", font=("Arial", 12)).pack()
+        entry = tk.Entry(frame, font=("Arial", 14), width=25, justify="center")
+        entry.pack(pady=5)
+        return entry
 
-    if sid in student_ids:
-        print("ID already exists!")
-        return
+    id_entry = labeled_entry("STUDENT ID")
+    first_entry = labeled_entry("FIRST NAME")
+    last_entry = labeled_entry("LAST NAME")
+    course_entry = labeled_entry("COURSE")
+    year_entry = labeled_entry("YEAR LEVEL (1-5)")
 
-    while True:
-        first_name = input("Enter First Name: ").strip()
-        if is_valid_name(first_name):
-            break
-        print("Invalid input. First name cannot contain numbers.")
+def save():
+        sid = id_entry.get().strip()
+        first_name = first_entry.get().strip()
+        last_name = last_entry.get().strip()
+        course = course_entry.get().strip()
+        year = year_entry.get().strip()
 
-    while True:
-        last_name = input("Enter Last Name: ").strip()
-        if is_valid_name(last_name):
-            break
-        print("Invalid input. Last name cannot contain numbers.")
+        if not sid or not first_name or not last_name or not course or not year:
+            messagebox.showerror("Error", "All fields are required.")
+            return
 
-    while True:
-        course = input("Enter Course: ").strip()
-        if is_valid_name(course):
-            break
-        print("Invalid input. Course cannot contain numbers.")
+        if sid in student_ids:
+            messagebox.showerror("Error", "ID already exists!")
+            return
 
-    while True:
+        if not is_valid_name(first_name):
+            messagebox.showerror("Error", "First name cannot contain numbers.")
+            return
+
+        if not is_valid_name(last_name):
+            messagebox.showerror("Error", "Last name cannot contain numbers.")
+            return
+
+        if not is_valid_name(course):
+            messagebox.showerror("Error", "Course cannot contain numbers.")
+            return
+
         try:
-            year_level = int(input("Enter Year Level (1-5): "))
-            if 1 <= year_level <= 5:
-                break
-            print("Year level must be between 1 and 5.")
+            year_level = int(year)
+            if not (1 <= year_level <= 5):
+                messagebox.showerror("Error", "Year level must be between 1 and 5.")
+                return
         except ValueError:
-            print("Please enter a valid number.")
+            messagebox.showerror("Error", "Year level must be a number.")
+            return
 
-    student_ids.append(sid)
-    student_first_names.append(first_name)
-    student_last_names.append(last_name)
-    student_courses.append(course)
-    student_year_levels.append(year_level)
+        if not messagebox.askyesno("Confirm", "Save this student?"):
+            return
 
-    save_students()
-    print("Student added successfully!")
+        student_ids.append(sid)
+        student_first_names.append(first_name.title())
+        student_last_names.append(last_name.title())
+        student_courses.append(course.upper())
+        student_year_levels.append(year_level)
+
+        save_students()
+
+        messagebox.showinfo("Success", "Student added successfully!")
+        win.destroy()
+
+    tk.Button(
+        frame,
+        text="SAVE",
+        font=("Arial", 14, "bold"),
+        width=18,
+        bg=MAROON,
+        fg="white",
+        command=save,
+    ).pack(pady=20)
 
 
 def view_students():
