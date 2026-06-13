@@ -64,8 +64,7 @@ def view_students():
 
     print("-" * 58)
 
-
-      records = list(
+    records = list(
         zip(
             student_ids,
             student_first_names,
@@ -138,7 +137,7 @@ def delete_student():
 def update_student():
     sid = input("Enter Student ID to update: ").strip()
 
-     if sid not in student_ids:
+    if sid not in student_ids:
         print("Student not found.")
         return
 
@@ -152,7 +151,7 @@ def update_student():
     print(f"Current Course    : {student_courses[i]}")
     print(f"Current Year Level: {student_year_levels[i]}")
 
- new_first = input(
+    new_first = input(
         f"Enter New First Name [{student_first_names[i]}]: "
     ).strip()
 
@@ -173,7 +172,7 @@ def update_student():
     if new_course:
         student_courses[i] = new_course.upper()
 
-         while True:
+    while True:
         new_year = input(
             f"Enter New Year Level [{student_year_levels[i]}]: "
         ).strip()

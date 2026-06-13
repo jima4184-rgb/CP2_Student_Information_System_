@@ -27,7 +27,7 @@ def load_students():
                         except ValueError:
                             print("Invalid record skipped.")
 
-     except Exception as e:
+    except Exception as e:
         print(f"Error loading file: {e}")
 
 
