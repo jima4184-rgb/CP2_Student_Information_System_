@@ -1,5 +1,18 @@
-from student_data import *
+import tkinter as tk
+from tkinter import ttk, messagebox
+
+from student_data import (
+    student_ids,
+    student_first_names,
+    student_last_names,
+    student_courses,
+    student_year_levels,
+    save_students,
+)
 from utils import is_valid_name
+
+MAROON = "#800000"
+GOLD = "#FFD700"
 
 
 def get_valid_name(prompt):
