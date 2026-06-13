@@ -82,3 +82,93 @@ def open_login(root, on_success):
         fg="black",
         command=lambda: (win.destroy(), open_register(root, on_success)),
     ).pack(pady=5)
+
+
+def open_register(root, on_success=None):
+    """If on_success is provided, opens the login window after registering."""
+
+    win = tk.Toplevel(root)
+    win.title("Register")
+    win.geometry("450x450")
+    win.configure(bg="white")
+
+    frame = tk.Frame(win, bg="white")
+    frame.place(relx=0.5, rely=0.5, anchor="center")
+
+    tk.Label(
+        frame,
+        text="REGISTER",
+        font=("Arial", 28, "bold"),
+        fg=MAROON,
+        bg="white",
+    ).pack(pady=15)
+
+    tk.Label(frame, text="USERNAME", bg="white", font=("Arial", 12)).pack()
+    username_entry = tk.Entry(frame, font=("Arial", 14), width=25, justify="center")
+    username_entry.pack(pady=8)
+
+    tk.Label(frame, text="PASSWORD", bg="white", font=("Arial", 12)).pack()
+    password_entry = tk.Entry(
+        frame, font=("Arial", 14), width=25, show="*", justify="center"
+    )
+    password_entry.pack(pady=8)
+
+    tk.Label(frame, text="ROLE (admin/user)", bg="white", font=("Arial", 12)).pack()
+    role_entry = tk.Entry(frame, font=("Arial", 14), width=25, justify="center")
+    role_entry.pack(pady=8)
+
+    def do_register():
+        username = username_entry.get().strip()
+        password = password_entry.get().strip()
+        role = role_entry.get().strip().lower()
+
+        if not username or not password:
+            messagebox.showerror("Error", "Username and password are required.")
+            return
+
+        if role not in ("admin", "user"):
+            role = "user"
+
+        try:
+            with open(ACCOUNT_FILE, "r") as f:
+                for line in f:
+                    data = line.strip().split(",")
+                    if len(data) == 3 and data[0] == username:
+                        messagebox.showerror("Error", "Username already exists!")
+                        return
+        except FileNotFoundError:
+            pass
+
+        if not messagebox.askyesno("Confirm", "Create this account?"):
+            return
+
+        with open(ACCOUNT_FILE, "a") as f:
+            f.write(f"{username},{password},{role}\n")
+
+        messagebox.showinfo("Success", "Account created! You can now log in.")
+        win.destroy()
+
+        if on_success:
+            open_login(root, on_success)
+
+    tk.Button(
+        frame,
+        text="REGISTER",
+        font=("Arial", 14, "bold"),
+        width=18,
+        bg=MAROON,
+        fg="white",
+        command=do_register,
+    ).pack(pady=15)
+
+    if on_success:
+        tk.Button(
+            frame,
+            text="LOGIN INSTEAD",
+            font=("Arial", 10, "bold"),
+            bg=GOLD,
+            fg="black",
+            command=lambda: (win.destroy(), open_login(root, on_success)),
+        ).pack(pady=5)
+
+
