@@ -113,21 +113,36 @@ def open_register(root, on_success=None):
     )
     password_entry.pack(pady=8)
 
-    tk.Label(frame, text="ROLE (admin/user)", bg="white", font=("Arial", 12)).pack()
-    role_entry = tk.Entry(frame, font=("Arial", 14), width=25, justify="center")
-    role_entry.pack(pady=8)
+    role_var = tk.StringVar(value="user")
+
+    tk.Label(frame, text="ROLE", bg="white", font=("Arial", 12)).pack(pady=(10, 0))
+
+    tk.Radiobutton(
+        frame,
+        text="Admin",
+        variable=role_var,
+        value="admin",
+        bg="white",
+        font=("Arial", 11),
+    ).pack()
+
+    tk.Radiobutton(
+        frame,
+        text="User",
+        variable=role_var,
+        value="user",
+        bg="white",
+        font=("Arial", 11),
+    ).pack()
 
     def do_register():
         username = username_entry.get().strip()
         password = password_entry.get().strip()
-        role = role_entry.get().strip().lower()
+        role = role_var.get()
 
         if not username or not password:
             messagebox.showerror("Error", "Username and password are required.")
             return
-
-        if role not in ("admin", "user"):
-            role = "user"
 
         try:
             with open(ACCOUNT_FILE, "r") as f:
