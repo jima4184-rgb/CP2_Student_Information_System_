@@ -182,18 +182,94 @@ def open_view_students(root):
     ).pack(pady=2)
 
 
-def search_student():
-    sid = input("Enter Student ID: ").strip()
+def open_edit_student(parent, selected_data, refresh_callback):
+    sid, first_name, last_name, course, year = selected_data
 
-    if sid in student_ids:
+    win = tk.Toplevel(parent)
+    win.title("Edit Student")
+    win.geometry("400x450")
+    win.configure(bg="white")
+
+    frame = tk.Frame(win, bg="white")
+    frame.place(relx=0.5, rely=0.5, anchor="center")
+
+    tk.Label(
+        frame,
+        text="EDIT STUDENT",
+        font=("Arial", 20, "bold"),
+        fg=MAROON,
+        bg="white",
+    ).pack(pady=10)
+
+    tk.Label(frame, text=f"Student ID: {sid}", bg="white", font=("Arial", 12, "bold")).pack(pady=5)
+
+    def labeled_entry(text, value):
+        tk.Label(frame, text=text, bg="white").pack()
+        entry = tk.Entry(frame, font=("Arial", 14), width=25, justify="center")
+        entry.insert(0, value)
+        entry.pack(pady=5)
+        return entry
+
+    first_entry = labeled_entry("FIRST NAME", first_name)
+    last_entry = labeled_entry("LAST NAME", last_name)
+    course_entry = labeled_entry("COURSE", course)
+    year_entry = labeled_entry("YEAR LEVEL (1-5)", year)
+
+    def save():
+        new_first = first_entry.get().strip()
+        new_last = last_entry.get().strip()
+        new_course = course_entry.get().strip()
+        new_year = year_entry.get().strip()
+
+        if not new_first or not new_last or not new_course or not new_year:
+            messagebox.showerror("Error", "All fields are required.")
+            return
+
+        if not is_valid_name(new_first):
+            messagebox.showerror("Error", "First name cannot contain numbers.")
+            return
+
+        if not is_valid_name(new_last):
+            messagebox.showerror("Error", "Last name cannot contain numbers.")
+            return
+
+        if not is_valid_name(new_course):
+            messagebox.showerror("Error", "Course cannot contain numbers.")
+            return
+
+        try:
+            year_level = int(new_year)
+            if not (1 <= year_level <= 5):
+                messagebox.showerror("Error", "Year level must be between 1 and 5.")
+                return
+        except ValueError:
+            messagebox.showerror("Error", "Year level must be a number.")
+            return
+
+        if not messagebox.askyesno("Confirm", "Save changes to this student?"):
+            return
+
         i = student_ids.index(sid)
+        student_first_names[i] = new_first.title()
+        student_last_names[i] = new_last.title()
+        student_courses[i] = new_course.upper()
+        student_year_levels[i] = year_level
 
-        print(f"ID        : {student_ids[i]}")
-        print(f"Name      : {student_first_names[i]} {student_last_names[i]}")
-        print(f"Course    : {student_courses[i]}")
-        print(f"Year Level: {student_year_levels[i]}")
-    else:
-        print("Student not found.")
+        save_students()
+
+        messagebox.showinfo("Success", "Student updated successfully!")
+        win.destroy()
+        refresh_callback()
+
+    tk.Button(
+        frame,
+        text="SAVE CHANGES",
+        font=("Arial", 14, "bold"),
+        width=18,
+        bg=MAROON,
+        fg="white",
+        command=save,
+    ).pack(pady=20)
 
 
 def delete_student():
