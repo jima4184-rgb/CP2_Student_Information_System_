@@ -105,47 +105,81 @@ def save():
     ).pack(pady=20)
 
 
-def view_students():
-    print("\n-- All Students --")
+def open_view_students(root):
+    win = tk.Toplevel(root)
+    win.title("View Students")
+    win.geometry("800x500")
+    win.configure(bg="white")
 
-    if not student_ids:
-        print("No students found.")
-        return
+    tk.Label(
+        win,
+        text="ALL STUDENTS",
+        font=("Arial", 18, "bold"),
+        fg=MAROON,
+        bg="white",
+    ).pack(pady=10)
 
-    print(
-        f"{'ID':<12} "
-        f"{'First Name':<15} "
-        f"{'Last Name':<15} "
-        f"{'Course':<10} "
-        f"{'Yr':>3}"
-    )
+    columns = ("ID", "First Name", "Last Name", "Course", "Year Level")
 
-    print("-" * 58)
+    tree = ttk.Treeview(win, columns=columns, show="headings")
+    tree.pack(fill="both", expand=True, padx=10, pady=10)
 
-    records = list(
-        zip(
-            student_ids,
-            student_first_names,
-            student_last_names,
-            student_courses,
-            student_year_levels
+    for col in columns:
+        tree.heading(col, text=col)
+        tree.column(col, anchor="center")
+
+    def refresh():
+        tree.delete(*tree.get_children())
+
+        records = list(
+            zip(
+                student_ids,
+                student_first_names,
+                student_last_names,
+                student_courses,
+                student_year_levels,
+            )
         )
+        records.sort()
+
+        for record in records:
+            tree.insert("", "end", values=record)
+
+    refresh()
+
+    btn_frame = tk.Frame(win, bg="white")
+    btn_frame.pack(pady=5)
+
+    def on_double_click(event):
+        selected = tree.focus()
+        if selected:
+            values = tree.item(selected, "values")
+            open_edit_student(win, values, refresh)
+
+    tree.bind("<Double-1>", on_double_click)
+
+    total_label = tk.Label(
+        win,
+        text=f"Total Students: {len(student_ids)}",
+        bg="white",
+        font=("Arial", 12, "bold"),
     )
+    total_label.pack(pady=5)
 
-    records.sort()
+    def refresh_all():
+        refresh()
+        total_label.config(text=f"Total Students: {len(student_ids)}")
 
-    for sid, fname, lname, course, year in records:
-        print(
-            f"{sid:<12} "
-            f"{fname:<15} "
-            f"{lname:<15} "
-            f"{course:<10} "
-            f"{year:>3}"
-        )
+    tk.Button(
+        btn_frame, text="Refresh", command=refresh_all, bg=MAROON, fg="white"
+    ).pack(side="left", padx=5)
 
-    print("-" * 58)
-    print(f"Total Students: {len(student_ids)}")
-
+    tk.Label(
+        win,
+        text="Double-click a row to edit that student.",
+        bg="white",
+        font=("Arial", 10, "italic"),
+    ).pack(pady=2)
 
 
 def search_student():
