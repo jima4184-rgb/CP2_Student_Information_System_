@@ -1,50 +1,18 @@
+import tkinter as tk
+from tkinter import messagebox
+
 from student_data import load_students
-from student_operations import (
-    add_student,
-    view_students,
-    search_student,
-    delete_student,
-    update_student
+from student_gui import (
+    open_add_student,
+    open_view_students,
+    open_search_student,
+    open_delete_student,
+    open_update_student,
 )
+from auth_gui import open_login, open_register
 
+LIGHTBLUE = "#B0E2FF" 
+LIGHTPINK = "#FFAEB9"
 
-def show_menu():
-    print("\n================================")
-    print("   STUDENT INFORMATION SYSTEM")
-    print("================================")
-    print("1. Add Student")
-    print("2. View All Students")
-    print("3. Search Student")
-    print("4. Delete Student")
-    print("5. Update Student")
-    print("0. Exit")
-    print("================================")
+current_user = {"username": None, "role": None}
 
-
-def main():
-    load_students()
-
-    while True:
-        show_menu()
-
-        choice = input("Enter a number: ")
-
-        if choice == "1":
-            add_student()
-        elif choice == "2":
-            view_students()
-        elif choice == "3":
-            search_student()
-        elif choice == "4":
-            delete_student()
-        elif choice == "5":
-            update_student()
-        elif choice == "0":
-            print("Goodbye!")
-            break
-        else:
-            print("Invalid option.")
-
-
-if __name__ == "__main__":
-    main()
