@@ -80,3 +80,100 @@ def on_login_success(username, role):
         fg="white",
         command=lambda: exit_app(window),
     ).grid(row=0, column=2, padx=15, pady=10)
+
+
+def show_dashboard(window):
+    clear_window(window)
+
+    frame = tk.Frame(window, bg="white")
+    frame.place(relx=0.5, rely=0.5, anchor="center")
+
+    tk.Label(
+        frame,
+        text="STUDENT INFORMATION SYSTEM",
+        font=("Arial", 26, "bold"),
+        fg=MAROON,
+        bg="white",
+    ).pack(pady=10)
+
+    role = current_user["role"]
+
+    tk.Label(
+        frame,
+        text=f"Logged in as: {current_user['username']} ({role})",
+        font=("Arial", 12, "italic"),
+        bg="white",
+    ).pack(pady=5)
+
+    btn_frame = tk.Frame(frame, bg="white")
+    btn_frame.pack(pady=15)
+
+    btn_style = {
+        "font": ("Arial", 14, "bold"),
+        "width": 20,
+        "height": 2,
+        "bg": MAROON,
+        "fg": "white",
+    }
+
+    if role == "admin":
+        tk.Button(
+            btn_frame, text="ADD STUDENT", command=lambda: open_add_student(window), **btn_style
+        ).grid(row=0, column=0, padx=10, pady=10)
+
+        tk.Button(
+            btn_frame, text="VIEW ALL STUDENTS", command=lambda: open_view_students(window), **btn_style
+        ).grid(row=0, column=1, padx=10, pady=10)
+
+        tk.Button(
+            btn_frame, text="SEARCH STUDENT", command=lambda: open_search_student(window), **btn_style
+        ).grid(row=1, column=0, padx=10, pady=10)
+
+        tk.Button(
+            btn_frame, text="DELETE STUDENT", command=lambda: open_delete_student(window), **btn_style
+        ).grid(row=1, column=1, padx=10, pady=10)
+
+        tk.Button(
+            btn_frame, text="UPDATE STUDENT", command=lambda: open_update_student(window), **btn_style
+        ).grid(row=2, column=0, padx=10, pady=10)
+
+        tk.Button(
+            btn_frame,
+            text="LOGOUT",
+            command=lambda: logout(window),
+            font=("Arial", 14, "bold"),
+            width=20,
+            height=2,
+            bg="orange",
+            fg="white",
+        ).grid(row=2, column=1, padx=10, pady=10)
+
+    else:
+        tk.Button(
+            btn_frame, text="VIEW ALL STUDENTS", command=lambda: open_view_students(window), **btn_style
+        ).grid(row=0, column=0, padx=10, pady=10)
+
+        tk.Button(
+            btn_frame, text="SEARCH STUDENT", command=lambda: open_search_student(window), **btn_style
+        ).grid(row=0, column=1, padx=10, pady=10)
+
+        tk.Button(
+            btn_frame,
+            text="LOGOUT",
+            command=lambda: logout(window),
+            font=("Arial", 14, "bold"),
+            width=20,
+            height=2,
+            bg="orange",
+            fg="white",
+        ).grid(row=1, column=0, padx=10, pady=10, columnspan=2)
+
+    tk.Button(
+        frame,
+        text="EXIT APP",
+        command=lambda: exit_app(window),
+        font=("Arial", 12, "bold"),
+        width=15,
+        bg="red",
+        fg="white",
+    ).pack(pady=15)
