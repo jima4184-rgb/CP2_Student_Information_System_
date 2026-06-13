@@ -324,35 +324,66 @@ def open_search_student(root):
     ).pack(pady=10)
 
 
+def open_delete_student(root):
+    win = tk.Toplevel(root)
+    win.title("Delete Student")
+    win.geometry("500x350")
+    win.configure(bg="white")
 
-def delete_student():
-    sid = input("Enter Student ID to delete: ").strip()
+    frame = tk.Frame(win, bg="white")
+    frame.place(relx=0.5, rely=0.5, anchor="center")
 
-    if sid in student_ids:
+    tk.Label(
+        frame,
+        text="DELETE STUDENT",
+        font=("Arial", 22, "bold"),
+        fg=MAROON,
+        bg="white",
+    ).pack(pady=10)
+
+    tk.Label(frame, text="Enter Student ID", bg="white").pack()
+
+    id_entry = tk.Entry(frame, font=("Arial", 14), width=25, justify="center")
+    id_entry.pack(pady=10)
+
+    info_label = tk.Label(frame, text="", bg="white", font=("Arial", 12))
+    info_label.pack(pady=5)
+
+    def do_delete():
+        sid = id_entry.get().strip()
+
+        if sid not in student_ids:
+            messagebox.showerror("Error", "Student not found.")
+            return
+
         i = student_ids.index(sid)
+        name = f"{student_first_names[i]} {student_last_names[i]}"
 
-        print(
-            f"Student Found: "
-            f"{student_first_names[i]} "
-            f"{student_last_names[i]} "
-        )
+        if not messagebox.askyesno(
+            "Confirm Delete", f"Delete student {name} (ID: {sid})?"
+        ):
+            return
 
-        confirm = input("Are you sure? (Y/N): ").upper()
+        student_ids.pop(i)
+        student_first_names.pop(i)
+        student_last_names.pop(i)
+        student_courses.pop(i)
+        student_year_levels.pop(i)
 
-        if confirm == "Y":
-            student_ids.pop(i)
-            student_first_names.pop(i)
-            student_last_names.pop(i)
-            student_courses.pop(i)
-            student_year_levels.pop(i)
+        save_students()
 
-            save_students()
+        messagebox.showinfo("Success", "Student deleted successfully.")
+        id_entry.delete(0, "end")
 
-            print("Student deleted successfully.")
-        else:
-            print("Delete cancelled.")
-    else:
-        print("Student not found.")
+    tk.Button(
+        frame,
+        text="DELETE",
+        font=("Arial", 14, "bold"),
+        bg=MAROON,
+        fg="white",
+        width=15,
+        command=do_delete,
+    ).pack(pady=10)
 
 
 def update_student():
