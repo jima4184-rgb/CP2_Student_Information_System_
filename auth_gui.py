@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
 
-MAROON = "#800000"
-GOLD = "#FFD700"
+LIGHTBLUE = "#B0E2FF" 
+LIGHTPINK = "#FFAEB9"
 ACCOUNT_FILE = "accounts.txt"
 
 
@@ -21,7 +21,7 @@ def open_login(root, on_success):
         frame,
         text="LOGIN",
         font=("Arial", 28, "bold"),
-        fg=MAROON,
+        fg=LIGHTBLUE,
         bg="white",
     ).pack(pady=15)
 
@@ -69,7 +69,7 @@ def open_login(root, on_success):
         text="LOGIN",
         font=("Arial", 14, "bold"),
         width=18,
-        bg=MAROON,
+        bg=LIGHTBLUE,
         fg="white",
         command=do_login,
     ).pack(pady=15)
@@ -78,7 +78,7 @@ def open_login(root, on_success):
         frame,
         text="REGISTER INSTEAD",
         font=("Arial", 10, "bold"),
-        bg=GOLD,
+        bg=LIGHTPINK,
         fg="black",
         command=lambda: (win.destroy(), open_register(root, on_success)),
     ).pack(pady=5)
@@ -99,7 +99,7 @@ def open_register(root, on_success=None):
         frame,
         text="REGISTER",
         font=("Arial", 28, "bold"),
-        fg=MAROON,
+        fg=LIGHTBLUE,
         bg="white",
     ).pack(pady=15)
 
@@ -156,7 +156,7 @@ def open_register(root, on_success=None):
         text="REGISTER",
         font=("Arial", 14, "bold"),
         width=18,
-        bg=MAROON,
+        bg=LIGHTBLUE,
         fg="white",
         command=do_register,
     ).pack(pady=15)
@@ -166,9 +166,7 @@ def open_register(root, on_success=None):
             frame,
             text="LOGIN INSTEAD",
             font=("Arial", 10, "bold"),
-            bg=GOLD,
+            bg=LIGHTPINK,
             fg="black",
             command=lambda: (win.destroy(), open_login(root, on_success)),
         ).pack(pady=5)
-
-

@@ -11,10 +11,13 @@ from student_data import (
 )
 from utils import is_valid_name
 
-MAROON = "#800000"
-GOLD = "#FFD700"
+LIGHTBLUE = "#B0E2FF" 
+LIGHTPINK = "#FFAEB9"
 
 
+# --------------------------------------------------------------------------
+# ADD STUDENT
+# --------------------------------------------------------------------------
 def open_add_student(root):
     win = tk.Toplevel(root)
     win.title("Add Student")
@@ -28,7 +31,7 @@ def open_add_student(root):
         frame,
         text="ADD STUDENT",
         font=("Arial", 24, "bold"),
-        fg=MAROON,
+        fg=LIGHTBLUE,
         bg="white",
     ).pack(pady=10)
 
@@ -44,7 +47,7 @@ def open_add_student(root):
     course_entry = labeled_entry("COURSE")
     year_entry = labeled_entry("YEAR LEVEL (1-5)")
 
-def save():
+    def save():
         sid = id_entry.get().strip()
         first_name = first_entry.get().strip()
         last_name = last_entry.get().strip()
@@ -99,12 +102,15 @@ def save():
         text="SAVE",
         font=("Arial", 14, "bold"),
         width=18,
-        bg=MAROON,
+        bg=LIGHTBLUE,
         fg="white",
         command=save,
     ).pack(pady=20)
 
 
+# --------------------------------------------------------------------------
+# VIEW STUDENTS
+# --------------------------------------------------------------------------
 def open_view_students(root):
     win = tk.Toplevel(root)
     win.title("View Students")
@@ -115,7 +121,7 @@ def open_view_students(root):
         win,
         text="ALL STUDENTS",
         font=("Arial", 18, "bold"),
-        fg=MAROON,
+        fg=LIGHTBLUE,
         bg="white",
     ).pack(pady=10)
 
@@ -171,7 +177,7 @@ def open_view_students(root):
         total_label.config(text=f"Total Students: {len(student_ids)}")
 
     tk.Button(
-        btn_frame, text="Refresh", command=refresh_all, bg=MAROON, fg="white"
+        btn_frame, text="Refresh", command=refresh_all, bg=LIGHTBLUE, fg="white"
     ).pack(side="left", padx=5)
 
     tk.Label(
@@ -182,6 +188,9 @@ def open_view_students(root):
     ).pack(pady=2)
 
 
+# --------------------------------------------------------------------------
+# EDIT STUDENT (opened from the View window via double-click)
+# --------------------------------------------------------------------------
 def open_edit_student(parent, selected_data, refresh_callback):
     sid, first_name, last_name, course, year = selected_data
 
@@ -197,7 +206,7 @@ def open_edit_student(parent, selected_data, refresh_callback):
         frame,
         text="EDIT STUDENT",
         font=("Arial", 20, "bold"),
-        fg=MAROON,
+        fg=LIGHTBLUE,
         bg="white",
     ).pack(pady=10)
 
@@ -266,12 +275,15 @@ def open_edit_student(parent, selected_data, refresh_callback):
         text="SAVE CHANGES",
         font=("Arial", 14, "bold"),
         width=18,
-        bg=MAROON,
+        bg=LIGHTBLUE,
         fg="white",
         command=save,
     ).pack(pady=20)
 
 
+# --------------------------------------------------------------------------
+# SEARCH STUDENT
+# --------------------------------------------------------------------------
 def open_search_student(root):
     win = tk.Toplevel(root)
     win.title("Search Student")
@@ -285,7 +297,7 @@ def open_search_student(root):
         frame,
         text="SEARCH STUDENT",
         font=("Arial", 22, "bold"),
-        fg=MAROON,
+        fg=LIGHTBLUE,
         bg="white",
     ).pack(pady=10)
 
@@ -317,13 +329,16 @@ def open_search_student(root):
         frame,
         text="SEARCH",
         font=("Arial", 14, "bold"),
-        bg=MAROON,
+        bg=LIGHTBLUE,
         fg="white",
         width=15,
         command=do_search,
     ).pack(pady=10)
 
 
+# --------------------------------------------------------------------------
+# DELETE STUDENT
+# --------------------------------------------------------------------------
 def open_delete_student(root):
     win = tk.Toplevel(root)
     win.title("Delete Student")
@@ -337,7 +352,7 @@ def open_delete_student(root):
         frame,
         text="DELETE STUDENT",
         font=("Arial", 22, "bold"),
-        fg=MAROON,
+        fg=LIGHTBLUE,
         bg="white",
     ).pack(pady=10)
 
@@ -379,13 +394,16 @@ def open_delete_student(root):
         frame,
         text="DELETE",
         font=("Arial", 14, "bold"),
-        bg=MAROON,
+        bg=LIGHTBLUE,
         fg="white",
         width=15,
         command=do_delete,
     ).pack(pady=10)
 
 
+# --------------------------------------------------------------------------
+# UPDATE STUDENT
+# --------------------------------------------------------------------------
 def open_update_student(root):
     win = tk.Toplevel(root)
     win.title("Update Student")
@@ -399,7 +417,7 @@ def open_update_student(root):
         frame,
         text="UPDATE STUDENT",
         font=("Arial", 22, "bold"),
-        fg=MAROON,
+        fg=LIGHTBLUE,
         bg="white",
     ).pack(pady=10)
 
@@ -437,7 +455,7 @@ def open_update_student(root):
         messagebox.showinfo("Found", "Student loaded! You may edit the fields below.")
 
     tk.Button(
-        frame, text="LOAD", command=load_student, bg=MAROON, fg="white", width=15
+        frame, text="LOAD", command=load_student, bg=LIGHTBLUE, fg="white", width=15
     ).pack(pady=5)
 
     tk.Label(fields_frame, text="FIRST NAME", bg="white").pack()
@@ -507,9 +525,8 @@ def open_update_student(root):
         frame,
         text="SAVE UPDATE",
         font=("Arial", 14, "bold"),
-        bg=MAROON,
+        bg=LIGHTBLUE,
         fg="white",
         width=18,
         command=save_update,
     ).pack(pady=20)
-")

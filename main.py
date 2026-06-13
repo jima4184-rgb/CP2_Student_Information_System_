@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 
 from student_data import load_students
-from student_gui import (
+from student_operations import (
     open_add_student,
     open_view_students,
     open_search_student,
@@ -37,13 +37,14 @@ def show_welcome(window):
         frame,
         text="STUDENT INFORMATION SYSTEM",
         font=("Arial", 28, "bold"),
-        fg=MAROON,
+        fg=LIGHTBLUE,
         bg="white",
     ).pack(pady=30)
 
     btn_frame = tk.Frame(frame, bg="white")
     btn_frame.pack(pady=10)
-def on_login_success(username, role):
+
+    def on_login_success(username, role):
         current_user["username"] = username
         current_user["role"] = role
         show_dashboard(window)
@@ -54,7 +55,7 @@ def on_login_success(username, role):
         font=("Arial", 16, "bold"),
         width=15,
         height=2,
-        bg=MAROON,
+        bg=LIGHTBLUE,
         fg="white",
         command=lambda: open_login(window, on_login_success),
     ).grid(row=0, column=0, padx=15, pady=10)
@@ -65,7 +66,7 @@ def on_login_success(username, role):
         font=("Arial", 16, "bold"),
         width=15,
         height=2,
-        bg=GOLD,
+        bg=LIGHTPINK,
         fg="black",
         command=lambda: open_register(window, on_login_success),
     ).grid(row=0, column=1, padx=15, pady=10)
@@ -92,7 +93,7 @@ def show_dashboard(window):
         frame,
         text="STUDENT INFORMATION SYSTEM",
         font=("Arial", 26, "bold"),
-        fg=MAROON,
+        fg=LIGHTBLUE,
         bg="white",
     ).pack(pady=10)
 
@@ -112,7 +113,7 @@ def show_dashboard(window):
         "font": ("Arial", 14, "bold"),
         "width": 20,
         "height": 2,
-        "bg": MAROON,
+        "bg": LIGHTBLUE,
         "fg": "white",
     }
 
@@ -201,4 +202,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
